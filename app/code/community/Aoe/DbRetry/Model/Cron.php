@@ -26,9 +26,6 @@ class Aoe_DbRetry_Model_Cron
         $count = (int)$this->_getOccurenceCount();
         if ($count > $threshold) {
             $this->_sendAlert();
-            Mage::log("Unrecoverable - Sending an alert");
-        } else {
-            echo "Didnt need to send an alert, woo-hoo!";
         }
     }
 
