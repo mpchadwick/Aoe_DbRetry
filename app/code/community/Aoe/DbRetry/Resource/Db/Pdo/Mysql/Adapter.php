@@ -52,7 +52,7 @@ class Aoe_DbRetry_Resource_Db_Pdo_Mysql_Adapter extends Magento_Db_Adapter_Pdo_M
                             continue;
                         }
                     }
-                    if ($connection->_config['aoe_dbretry_alert_threshold']) {
+                    if (Mage::getConfig()->getNode('global/resources/aoe_dbretry_alert_threshold')) {
                         Mage::log("Unrecoverable Error", Zend_Log::ERR, 'aoe_dbretry_unrecoverable.log', true);
                         Mage::log($e->__toString(), Zend_Log::ERR, 'aoe_dbretry_unrecoverable.log', true);
                     }
