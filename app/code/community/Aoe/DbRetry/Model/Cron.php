@@ -10,7 +10,7 @@ class Aoe_DbRetry_Model_Cron
     const DATE_FORMAT = 'yyyy-MM-ddThh'; // ISO_8601, but without the minutes and seconds
 
     protected $_alertThreshold;
-    protected $_occurenceCount;
+    protected $_occurrenceCount;
     protected $_fullErrorFilePath;
     protected $_currentHourForLogs;
     protected $_date;
@@ -23,7 +23,7 @@ class Aoe_DbRetry_Model_Cron
             return;
         }
 
-        $count = (int)$this->_getOccurenceCount();
+        $count = (int)$this->_getOccurrenceCount();
         if ($count > $threshold) {
             $this->_sendAlert();
         }
@@ -37,16 +37,16 @@ class Aoe_DbRetry_Model_Cron
         return $this->_alertThreshold;
     }
 
-    protected function _getOccurenceCount()
+    protected function _getOccurrenceCount()
     {
-        if (is_null($this->_occurenceCount)) {
+        if (is_null($this->_occurrenceCount)) {
             $file = $this->_getFullErrorFilePath();
             $currentHourForLogs = $this->_getCurrentHourForLogs();
             $lines = preg_grep('/'.$currentHourForLogs.'/', file($file)); // Get the lines from the past hour
             $lines = preg_grep('/'.self::ERROR_IDENTIFIER.'/', $lines); // Only get the lines that identify a new error
-            $this->_occurenceCount = count($lines);
+            $this->_occurrenceCount = count($lines);
         }
-        return $this->_occurenceCount;
+        return $this->_occurrenceCount;
     }
 
     protected function _getFullErrorFilePath()
@@ -80,7 +80,7 @@ class Aoe_DbRetry_Model_Cron
         $mail->setFrom(Mage::getStoreConfig('trans_email/ident_general/email'));
         $mail->addTo(Mage::getConfig()->getNode(self::ALERT_RECIPIENTS_CONFIG_NODE));
         $mail->setSubject(Mage::getStoreConfig('general/store_information/name') . ' - DB Retry Alert');
-        $mail->setBodyText("There have been " . $this->_getOccurenceCount() . " unrecoverable errors in the past hour");
+        $mail->setBodyText("There have been " . $this->_getOccurrenceCount() . " unrecoverable errors in the past hour");
         $mail->send();
     }
 
