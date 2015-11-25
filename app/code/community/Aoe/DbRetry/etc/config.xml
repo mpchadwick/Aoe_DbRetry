@@ -16,5 +16,20 @@
                 </types>
             </connection>
         </resource>
+        <models>
+            <aoe_dbretry>
+                <class>Aoe_DbRetry_Model</class>
+            </aoe_dbretry>
+        </models>
     </global>
+    <crontab>
+        <jobs>
+            <aoe_dbretry_alert>
+                <schedule><cron_expr>59 * * * *</cron_expr></schedule>
+                <run>
+                    <model>aoe_dbretry/cron::checkAlert</model>
+                </run>
+            </aoe_dbretry_alert>
+        </jobs>
+    </crontab>
 </config>
